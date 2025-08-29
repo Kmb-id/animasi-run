@@ -1,6 +1,9 @@
 # animasi-run
-Ini Script (bash) Shell
+- Ini Script (bash) Shell
 Membuat teks animasi bergerak/berjalan
+<p align="center">
+  <img src="https://github.com/Kmb-id/animasi-run/blob/main/animasiku.gif" alt="Demo animasi" width="250" />
+</p>
 
 ### USAGE :
 ```
