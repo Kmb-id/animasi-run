@@ -1,0 +1,68 @@
+#!/bin/bash
+# Animasi ASCII Art Bergerak dengan parameter
+# Pemakaian:
+#   ./animasi "Teks Anda" [arah] [warna] [font]
+
+# =================== DEFAULT ===================
+text="${1:-KMB.ID}"
+arah="${2:-left}"       # left / right
+warna="${3:-cyan}"      # red, green, yellow, blue, magenta, cyan, white
+font="${4:-slant}"      # standard, slant, banner, block, digital, future, dll
+delay=0.05
+
+# =================== CEK PROGRAM ===================
+if ! command -v figlet &>/dev/null; then
+  echo "Figlet belum terpasang. Install dengan: pkg install figlet -y"
+  exit 1
+fi
+
+# =================== BUAT ASCII ===================
+ascii=$(figlet -f "$font" "$text")
+cols=$(tput cols)
+lines=$(echo "$ascii" | wc -l)
+
+# =================== WARNA ===================
+case "$warna" in
+  black)   color=$(tput setaf 0);;
+  red)     color=$(tput setaf 1);;
+  green)   color=$(tput setaf 2);;
+  yellow)  color=$(tput setaf 3);;
+  blue)    color=$(tput setaf 4);;
+  magenta) color=$(tput setaf 5);;
+  cyan)    color=$(tput setaf 6);;
+  white)   color=$(tput setaf 7);;
+  *)       color=$(tput sgr0);;
+esac
+reset=$(tput sgr0)
+
+# =================== TAMBAH PADDING ===================
+padding=$(printf "%*s" $cols "")
+mapfile -t ascii_lines <<< "$ascii"
+for ((j=0; j<lines; j++)); do
+  ascii_lines[$j]="${padding}${ascii_lines[$j]}${padding}"
+done
+len=${#ascii_lines[0]}
+
+# =================== ANIMASI ===================
+tput civis
+trap "tput cnorm; exit" SIGINT
+
+while true; do
+  if [[ $arah == "left" ]]; then
+    for ((i=0; i<=len-cols; i++)); do
+      printf "\033[%dA" $lines   # naikkan cursor ke atas
+      for ((j=0; j<lines; j++)); do
+        echo -e "${color}${ascii_lines[$j]:i:cols}${reset}"
+      done
+      sleep $delay
+    done
+  else
+    for ((i=len-cols; i>=0; i--)); do
+      printf "\033[%dA" $lines
+      for ((j=0; j<lines; j++)); do
+        echo -e "${color}${ascii_lines[$j]:i:cols}${reset}"
+      done
+      sleep $delay
+    done
+  fi
+done
