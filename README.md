@@ -14,7 +14,7 @@ cd animasi-run
 ```
 - Berikan ijin
 ```
-chmod +x animasi
+chmod +x *
 ```
 - jalankan
 ```
@@ -24,7 +24,7 @@ Contoh :
 - 1
   - ./animasi "hallo" right red term
 - 2
-  - ./animasi "Hello" left green future
+  - ./v2 "Hello" left green future
 
 ### NOTE
 - TEKS= "```bebas isi```"
@@ -55,5 +55,8 @@ Contoh :
     - standard
     - term
     - D.L.L
-### Enjoy & Keep Smile
+### HOW to stop Animasi
+- Tombol ```CTRL``` + huruf ```Z```
+
+  - Enjoy & good luck !!! 
 
